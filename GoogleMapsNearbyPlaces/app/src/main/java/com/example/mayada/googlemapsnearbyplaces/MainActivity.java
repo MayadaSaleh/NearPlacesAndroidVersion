@@ -21,6 +21,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.mayada.googlemapsnearbyplaces.interfaces.MainActivityInterface;
+import com.example.mayada.googlemapsnearbyplaces.interfaces.PresenterInterface;
 import com.example.mayada.googlemapsnearbyplaces.presenter.Presenter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -43,7 +45,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends FragmentActivity implements OnMapReadyCallback{
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback, MainActivityInterface{
 
 
 
@@ -53,10 +55,9 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
        private Double currentLatitude;
        private Double currentLongitude;
        private String fulladdress;
-       private Presenter myPresenter;
+       private PresenterInterface presenterInterface;
 
-//    public static final int LOCATION_UPDATE_MIN_DISTANCE = 10;
-//    public static final int LOCATION_UPDATE_MIN_TIME = 5000;
+
 
 //    private LocationListener mLocationListener = new LocationListener() {
 
@@ -87,14 +88,14 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
          myLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
+        Log.i("jjjjj","jjjjjjjjjjjjj");
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},0);
         }
 
-        myPresenter = new Presenter();
+        presenterInterface = new Presenter(this);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
@@ -111,7 +112,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
      void mosqueClicked(View view){
         if(currentLatitude != null && currentLongitude != null){
             String location= currentLatitude+","+currentLongitude;
-            myPresenter.getNearPlaces(location,"Mosque");
+            presenterInterface.getNearPlaces(location,"Mosque");
         }
     }
 
@@ -119,7 +120,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     void bankClicked(View view){
         if(currentLatitude != null && currentLongitude != null){
             String location= currentLatitude+","+currentLongitude;
-            myPresenter.getNearPlaces(location,"Bank");
+            presenterInterface.getNearPlaces(location,"Bank");
         }
     }
 
@@ -236,4 +237,23 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 //            }
 //        }
 //    }
+
+@Override
+    public void drawMarker(double[] lats, double[]lngs)
+    {
+        myMap.clear();
+        myMap.addMarker(new MarkerOptions().position(new LatLng(currentLatitude,currentLongitude)).title("currentPosition"));
+        if(lats != null && lngs != null){
+           for(int i=0; i< lats.length;i++){
+               LatLng position = new LatLng(lats[i], lngs[i]);
+               myMap.addMarker(new MarkerOptions()
+                       .position(position)
+                       .title("Nearby"));
+               myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(position, 14));
+
+           }
+        }else {
+            Toast.makeText(MainActivity.this,"Error in loading near by places",Toast.LENGTH_LONG).show();
+        }
+    }
 }
