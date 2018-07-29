@@ -7,5 +7,10 @@
     tools:context="com.example.mayada.googlemapsnearbyplaces.RouteActivity">
 
 
+    <fragment
+        android:id="@+id/staticMap"
+        class="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </android.support.constraint.ConstraintLayout>
