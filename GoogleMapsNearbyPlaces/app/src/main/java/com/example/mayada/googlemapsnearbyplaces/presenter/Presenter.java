@@ -25,16 +25,14 @@ public class Presenter implements PresenterInterface {
     void initPresenter()
     {
         nearbyPlacesAPIManager=new NearbyPlacesAPIManager(this);
-       // mainActivityInterface.initView();
     }
 
-  //  private MainActivity mainActivity = new MainActivity();
     @Override
     public  void getNearPlaces(String location, String placeType){
         nearbyPlacesAPIManager.getNearPlaces(location,placeType);
     }
 
-@Override
+    @Override
    public  void returnNearbyLocations(double[] lats, double[]lngs){
        mainActivityInterface.drawMarker(lats,lngs);
     }

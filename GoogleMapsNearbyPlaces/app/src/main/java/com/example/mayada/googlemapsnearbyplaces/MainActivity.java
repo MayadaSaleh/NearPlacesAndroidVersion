@@ -47,8 +47,6 @@ import butterknife.OnClick;
 
 public class MainActivity extends FragmentActivity implements OnMapReadyCallback, MainActivityInterface{
 
-
-
        private GoogleMap myMap;
        private LocationManager myLocationManager;
        private AlertDialog alertDialog;
@@ -57,30 +55,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
        private String fulladdress;
        private PresenterInterface presenterInterface;
 
-
-
-//    private LocationListener mLocationListener = new LocationListener() {
-
-//        @Override
-//        public void onLocationChanged(Location location) {
-//            if (location != null) {
-//                Log.i("location", location.getLatitude()+ " " +location.getLongitude());
-//                drawMarker(location);
-//                mLocationManager.removeUpdates(mLocationListener);
-//            } else {
-//                Log.i("location","Location is null");
-//            }
-//
-//        }
-//
-//
-//    };
-//
-//    private void drawMarker(Location location) {
-//
-//
-//    }
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +62,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
          myLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Log.i("jjjjj","jjjjjjjjjjjjj");
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
@@ -102,10 +75,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
 
        // myLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         //getCurrentLocation();
-
-
-
-
     }
 
     @OnClick(R.id.mosqueButton)
@@ -131,10 +100,8 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }
      }
 
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void getCurrentLocation() {
-        Log.i("memooo","rrrrrrrrrr");
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
         alertDialog = new AlertDialog.Builder(MainActivity.this).create();
@@ -208,35 +175,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         myMap = googleMap;
         getCurrentLocation();
     }
-
-
-//
-//    private void drawMarker(Location location) {
-//        if (myMap != null) {
-//            myMap.clear();
-//            LatLng gps = new LatLng(location.getLatitude(), location.getLongitude());
-//            myMap.addMarker(new MarkerOptions()
-//                    .position(gps)
-//                    .title("Current Position"));
-//            myMap.animateCamera(CameraUpdateFactory.newLatLngZoom(gps, 12));
-//        }
-//
-//    }
-//
-//
-//    private void initMap() {
-//        int googlePlayStatus = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-//        if (googlePlayStatus != ConnectionResult.SUCCESS) {
-//            GooglePlayServicesUtil.getErrorDialog(googlePlayStatus, this, -1).show();
-//            finish();
-//        } else {
-//            if (myMap != null) {
-//                myMap.setMyLocationEnabled(true);
-//                myMap.getUiSettings().setMyLocationButtonEnabled(true);
-//                myMap.getUiSettings().setAllGesturesEnabled(true);
-//            }
-//        }
-//    }
 
 @Override
     public void drawMarker(double[] lats, double[]lngs)
