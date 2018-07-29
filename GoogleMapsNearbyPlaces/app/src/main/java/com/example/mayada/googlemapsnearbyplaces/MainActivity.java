@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -35,6 +36,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
@@ -45,7 +47,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends FragmentActivity implements OnMapReadyCallback, MainActivityInterface{
+public class MainActivity extends FragmentActivity implements OnMapReadyCallback, MainActivityInterface,GoogleMap.OnMarkerClickListener {
 
        private GoogleMap myMap;
        private LocationManager myLocationManager;
@@ -62,6 +64,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
          myLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
@@ -174,6 +177,7 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         myMap = googleMap;
         getCurrentLocation();
+        myMap.setOnMarkerClickListener(this);
     }
 
 @Override
@@ -193,5 +197,19 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         }else {
             Toast.makeText(MainActivity.this,"Error in loading near by places",Toast.LENGTH_LONG).show();
         }
+    }
+
+
+    @Override
+    public boolean onMarkerClick(final Marker marker) {
+
+        Intent intent = new Intent(MainActivity.this,RouteActivity.class);
+        intent.putExtra("currentlat",currentLatitude);
+        intent.putExtra("currentlng",currentLongitude);
+        intent.putExtra("destinationlat",marker.getPosition().latitude);
+        intent.putExtra("destinationlng",marker.getPosition().longitude);
+        startActivity(intent);
+
+        return false;
     }
 }
