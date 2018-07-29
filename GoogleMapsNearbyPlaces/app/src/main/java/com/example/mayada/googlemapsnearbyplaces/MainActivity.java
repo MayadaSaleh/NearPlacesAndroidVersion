@@ -111,10 +111,16 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
      void mosqueClicked(View view){
         if(currentLatitude != null && currentLongitude != null){
             String location= currentLatitude+","+currentLongitude;
-            myPresenter.getNearPlaces(location,"mosque");
-
+            myPresenter.getNearPlaces(location,"Mosque");
         }
+    }
 
+    @OnClick(R.id.bankButton)
+    void bankClicked(View view){
+        if(currentLatitude != null && currentLongitude != null){
+            String location= currentLatitude+","+currentLongitude;
+            myPresenter.getNearPlaces(location,"Bank");
+        }
     }
 
     @OnClick(R.id.currentAddress)
@@ -123,16 +129,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
             Toast.makeText(MainActivity.this, "Current Location is " + fulladdress, Toast.LENGTH_LONG).show();
         }
      }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @OnClick(R.id.bankButton)
-     void bankClicked(View view){
-        if(currentLatitude != null && currentLongitude != null){
-            String location= currentLatitude+","+currentLongitude;
-            myPresenter.getNearPlaces(location,"bank");
-        }
-    }
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)

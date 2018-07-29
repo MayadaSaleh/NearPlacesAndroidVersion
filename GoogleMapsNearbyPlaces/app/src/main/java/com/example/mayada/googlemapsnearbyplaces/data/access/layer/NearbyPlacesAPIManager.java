@@ -4,7 +4,9 @@ import android.util.Log;
 
 import com.example.mayada.googlemapsnearbyplaces.access.control.RetrofitAPIUtils;
 import com.example.mayada.googlemapsnearbyplaces.pojos.OuterNearPlacesPojo;
+import com.example.mayada.googlemapsnearbyplaces.pojos.Result;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -25,22 +27,23 @@ public class NearbyPlacesAPIManager {
 
             @Override
             public void onResponse(Call<OuterNearPlacesPojo> call, Response<OuterNearPlacesPojo> response) {
-                OuterNearPlacesPojo outerNearPlacesPojo = response.body();
-                Log.i("memooooooo",""+outerNearPlacesPojo.getResults().get(0).getGeometry().get(0).getLocation().getLat());
-                Log.i("memooooooo",""+outerNearPlacesPojo.getResults().get(0).getGeometry().get(0).getLocation().getLng());
+               OuterNearPlacesPojo outerNearPlacesPojo = response.body();
+              Log.i("memooooooo",""+outerNearPlacesPojo.getResults().get(0));
 
-                for(int i=0; i< outerNearPlacesPojo.getResults().get(0).getGeometry().size();i++){
-                    lats[i]= outerNearPlacesPojo.getResults().get(0).getGeometry().get(i).getLocation().getLat();
-                    lngs[i]= outerNearPlacesPojo.getResults().get(0).getGeometry().get(0).getLocation().getLng();
+                    lats= new double[outerNearPlacesPojo.getResults().size()];
+                    lngs= new double[outerNearPlacesPojo.getResults().size()];
+                for(int i=0; i< outerNearPlacesPojo.getResults().size();i++){
+                    lats[i]= outerNearPlacesPojo.getResults().get(i).getGeometry().getLocation().getLat();
+                    lngs[i]= outerNearPlacesPojo.getResults().get(i).getGeometry().getLocation().getLng();
+                    // Result r = result.get(i);
                 }
 
-
+                    Log.i("memooooo","lng 2"+lngs[2]);
                // myInteractor.recieveResponseInteractor(returnResponseStatus);
             }
 
             @Override
             public void onFailure(Call<OuterNearPlacesPojo> call, Throwable t) {
-                Log.i("memooooooo","faaaaaaaaaaaaaaaaaail");
                 Log.i("failure",t.getMessage());
 
                // myInteractor.recieveResponseInteractor(returnResponseStatus);

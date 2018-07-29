@@ -1,31 +1,24 @@
 package com.example.mayada.googlemapsnearbyplaces.pojos;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Mayada on 7/29/2018.
  */
 
-public class OuterNearPlacesPojo {
+public class OuterNearPlacesPojo implements Serializable{
 
-    private List <InnerPojo> results;
-    private List<Object> html_attributions;
+   private List<Result> results = new ArrayList<Result>();
     private String status;
 
-    public List<InnerPojo> getResults() {
+    public List<Result> getResults() {
         return results;
     }
 
-    public void setResults(List<InnerPojo> results) {
+    public void setResults(List<Result> results) {
         this.results = results;
-    }
-
-    public List<Object> getHtml_attributions() {
-        return html_attributions;
-    }
-
-    public void setHtml_attributions(List<Object> html_attributions) {
-        this.html_attributions = html_attributions;
     }
 
     public String getStatus() {
