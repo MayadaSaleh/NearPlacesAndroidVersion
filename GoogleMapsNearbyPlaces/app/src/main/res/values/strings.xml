@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">GoogleMapsNearbyPlaces</string>
+    <string name="Failed">Please check your GPS connecion</string>
+</resources>
