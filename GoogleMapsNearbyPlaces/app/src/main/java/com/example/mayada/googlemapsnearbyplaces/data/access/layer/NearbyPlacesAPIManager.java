@@ -35,13 +35,12 @@ public class NearbyPlacesAPIManager implements NearbyManagerAPIInterface {
 
     @Override
     public void getNearPlaces(String location, String placeType) {
-        Call<OuterNearPlacesPojo> responseCall = RetrofitAPIUtils.getService().getNearbyPlaces(location,placeType);
+        Call<OuterNearPlacesPojo> responseCall = RetrofitAPIUtils.getNearPlacesService().getNearbyPlaces(location,placeType);
         responseCall.enqueue(new Callback<OuterNearPlacesPojo>() {
 
             @Override
             public void onResponse(Call<OuterNearPlacesPojo> call, Response<OuterNearPlacesPojo> response) {
                OuterNearPlacesPojo outerNearPlacesPojo = response.body();
-              Log.i("memooooooo",""+outerNearPlacesPojo.getResults().get(0));
 
                     lats= new double[outerNearPlacesPojo.getResults().size()];
                     lngs= new double[outerNearPlacesPojo.getResults().size()];
@@ -59,18 +58,16 @@ public class NearbyPlacesAPIManager implements NearbyManagerAPIInterface {
                 presenter.returnNearbyLocations(null,null);
             }
         });
-
     }
 
     @Override
     public void getPoints(String origin, String destination) {
-        Call<OuterDirectionAPIPojo> responseCall = RetrofitAPIUtils.getService().getDirectionPoints(origin,destination);
+        Call<OuterDirectionAPIPojo> responseCall = RetrofitAPIUtils.getPointsService().getDirectionPoints(origin,destination);
         responseCall.enqueue(new Callback<OuterDirectionAPIPojo>() {
 
             @Override
             public void onResponse(Call<OuterDirectionAPIPojo> call, Response<OuterDirectionAPIPojo> response) {
                 OuterDirectionAPIPojo outerDirectionAPIPojo = response.body();
-                Log.i("nnnnnnnnnnnnnn",""+outerDirectionAPIPojo.getRoutes().get(0).getOverview_polyline());
 
                 points= outerDirectionAPIPojo.getRoutes().get(0).getOverview_polyline().getPoints();
                presenter.returnDirectionPoints(points);
