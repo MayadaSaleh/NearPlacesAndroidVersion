@@ -9,4 +9,6 @@ public interface PresenterInterface {
       void getNearPlaces(String location, String placeType);
       void returnNearbyLocations(double[] lats, double[]lngs);
 
-    }
+      void sendLocation(String origin, String destination);
+      void returnDirectionPoints(String points);
+}

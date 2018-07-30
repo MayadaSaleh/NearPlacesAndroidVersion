@@ -63,20 +63,23 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-         myLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},0);
         }
+         myLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+
+
 
         presenterInterface = new Presenter(this);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
-       // myLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        getCurrentLocation();
+
+        // myLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         //getCurrentLocation();
     }
 
@@ -176,7 +179,6 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         myMap = googleMap;
-        getCurrentLocation();
         myMap.setOnMarkerClickListener(this);
     }
 

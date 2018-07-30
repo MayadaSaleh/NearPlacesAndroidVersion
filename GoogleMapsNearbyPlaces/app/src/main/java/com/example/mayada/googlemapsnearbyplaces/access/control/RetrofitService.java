@@ -1,5 +1,6 @@
 package com.example.mayada.googlemapsnearbyplaces.access.control;
 
+import com.example.mayada.googlemapsnearbyplaces.pojos.OuterDirectionAPIPojo;
 import com.example.mayada.googlemapsnearbyplaces.pojos.OuterNearPlacesPojo;
 
 import retrofit2.Call;
@@ -19,5 +20,10 @@ public interface RetrofitService {
     @Headers({"Accept: application/json","Content-Type: application/json"})
     Call<OuterNearPlacesPojo> getNearbyPlaces (@Query ("location") String location,
                                                @Query("type") String type);
+
+    @GET("json?&key=AIzaSyBIEuE70Mz6Fi4jGUL5lqYdCIxT2xjOrqM")
+    @Headers({"Accept: application/json","Content-Type: application/json"})
+    Call<OuterDirectionAPIPojo> getDirectionPoints (@Query ("origin") String origin,
+                                                    @Query("destination") String destination);
 
 }

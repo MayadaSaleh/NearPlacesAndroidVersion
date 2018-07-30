@@ -8,4 +8,5 @@ public interface NearbyManagerAPIInterface {
 
      void getNearPlaces(String location, String placeType);
 
-    }
+    void getPoints(String origin, String destination);
+}

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.mayada.googlemapsnearbyplaces.access.control.RetrofitAPIUtils;
 import com.example.mayada.googlemapsnearbyplaces.interfaces.NearbyManagerAPIInterface;
 import com.example.mayada.googlemapsnearbyplaces.interfaces.PresenterInterface;
+import com.example.mayada.googlemapsnearbyplaces.pojos.OuterDirectionAPIPojo;
 import com.example.mayada.googlemapsnearbyplaces.pojos.OuterNearPlacesPojo;
 import com.example.mayada.googlemapsnearbyplaces.pojos.Result;
 import com.example.mayada.googlemapsnearbyplaces.presenter.Presenter;
@@ -22,8 +23,9 @@ import retrofit2.Response;
 
 public class NearbyPlacesAPIManager implements NearbyManagerAPIInterface {
 
-    double[] lats;
-    double[]lngs;
+     private double[] lats;
+     private double[]lngs;
+    private String points;
 
     PresenterInterface presenter;
     public NearbyPlacesAPIManager (PresenterInterface pres){
@@ -58,5 +60,27 @@ public class NearbyPlacesAPIManager implements NearbyManagerAPIInterface {
             }
         });
 
+    }
+
+    @Override
+    public void getPoints(String origin, String destination) {
+        Call<OuterDirectionAPIPojo> responseCall = RetrofitAPIUtils.getService().getDirectionPoints(origin,destination);
+        responseCall.enqueue(new Callback<OuterDirectionAPIPojo>() {
+
+            @Override
+            public void onResponse(Call<OuterDirectionAPIPojo> call, Response<OuterDirectionAPIPojo> response) {
+                OuterDirectionAPIPojo outerDirectionAPIPojo = response.body();
+                Log.i("nnnnnnnnnnnnnn",""+outerDirectionAPIPojo.getRoutes().get(0).getOverview_polyline());
+
+                points= outerDirectionAPIPojo.getRoutes().get(0).getOverview_polyline().getPoints();
+               presenter.returnDirectionPoints(points);
+            }
+
+            @Override
+            public void onFailure(Call<OuterDirectionAPIPojo> call, Throwable t) {
+                Log.i("failure",t.getMessage());
+                presenter.returnDirectionPoints(points);
+            }
+        });
     }
 }
